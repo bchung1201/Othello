@@ -1,6 +1,6 @@
 /**
  * Main method to create the object of type Frame, which will represent the game and execute all of it's methods
- * @author Bryan Chung and Claire Chou
+ * @author Bryan Chung
  */
 public class Main {
     /**
