@@ -15,12 +15,8 @@ public class TileButton extends JButton {
      */
     public TileButton(Tile t) {
         super();
-        parent = t;;
-        addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                clicked();
-            }
-        } );
+        parent = t;
+        addActionListener(e -> clicked());
     }
 
     /**
