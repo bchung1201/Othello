@@ -4,7 +4,7 @@ import javax.swing.*;
 
 /**
  * TileButton class to attach a button to a tile.
- * @author Bryan Chung and Claire Chou
+ * @author Bryan Chung
  */
 public class TileButton extends JButton {
     private Tile parent;
