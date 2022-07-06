@@ -1,7 +1,7 @@
 
 /**
  * Othello class that keeps track of the position of pieces on the game board.
- * @author Bryan Chung and Claire Chou
+ * @author Bryan Chung
  */
 public class Othello {
     private int[][] board;
