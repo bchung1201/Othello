@@ -1,9 +1,8 @@
 Othello
 
 Bryan Chung
-Claire Chou
 
-Our project represents a 2 player Othello game. 
+This project represents a 2 player Othello game. 
 
 The project allows two players on the same device to play a game of Othello, utilizing a 2-D array to represent the board and a GUI application to gain input from the users. The players place pieces down on the board, alternating until neither player has a valid move. The game then displays the winner and allows the players to refresh the board and play a new game.
 
