@@ -3,7 +3,7 @@ import java.awt.*;
 
 /**
  * Tile class that is responsible for creating the visual representation for an othello board.
- * @author Bryan Chung and Claire Chou
+ * @author Bryan Chung
  */
 public class Frame extends JFrame{
     private Tile[][] board;
