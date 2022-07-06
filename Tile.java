@@ -3,7 +3,7 @@ import javax.swing.*;
 
 /**
  * Tile class that draws one square on the Othello board.
- * @author Bryan Chung and Claire Chou
+ * @author Bryan Chung
  */
 public class Tile extends JPanel {
     private final TileButton button;
