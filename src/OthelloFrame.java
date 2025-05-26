@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Tile class that is responsible for creating the visual representation for an othello board.
@@ -10,6 +12,9 @@ public class OthelloFrame extends JFrame{
     private Othello othello = new Othello();
     private final int WHITE = 1;
     private final int BLACK = -1;
+    private boolean botMode = false; // If true, play vs bot
+    private JButton toggleBotButton;
+    private BotPlayer bot = new BotPlayer();
 
     /**
      * Default constructor for an object of type Frame, with an 8 by 8 grid of Tile objects.
@@ -19,15 +24,16 @@ public class OthelloFrame extends JFrame{
         board = new Tile[8][8];
         setVisible(true);
         setResizable(false);
-        setSize(750,750);
-        setLayout(new GridLayout(8, 8, 2, 2));
-        getContentPane().setBackground(Color.black);
+        setSize(750,800); 
+        setLayout(new BorderLayout());
+        JPanel boardPanel = new JPanel(new GridLayout(8, 8, 2, 2));
+        boardPanel.setBackground(Color.black);
         int n = 8;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 Tile newTile = new Tile(i, j, this);
                 board[i][j] = newTile;
-                getContentPane().add(newTile);
+                boardPanel.add(newTile);
             }
         }
         board[3][3].setColor(WHITE);
@@ -41,6 +47,17 @@ public class OthelloFrame extends JFrame{
         invalidate();
         validate();
         repaint();
+        add(boardPanel, BorderLayout.CENTER);
+        toggleBotButton = new JButton("Play vs Bot: OFF");
+        toggleBotButton.addActionListener(e -> {
+            botMode = !botMode;
+            toggleBotButton.setText(botMode ? "Play vs Bot: ON" : "Play vs Bot: OFF");
+            othello.resetBoard();
+            resetBoard();
+        });
+        JPanel controlPanel = new JPanel();
+        controlPanel.add(toggleBotButton);
+        add(controlPanel, BorderLayout.SOUTH);
     }
 
     /**
@@ -79,31 +96,18 @@ public class OthelloFrame extends JFrame{
             othello.makeMove(row, column);
         }
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                board[i][j].setColor(othello.returnColor(i, j));
-                if (othello.returnPlayer() && othello.isValid(i, j)) {
-                    board[i][j].setColor(2);
-                }
-                else if (!othello.returnPlayer() && othello.isValid(i, j)) {
-                    board[i][j].setColor(-2);
-                }
-            }
-        }
-
-        if (!othello.playerHasMoves()) {
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if (othello.returnPlayer() && othello.isValid(i, j)) {
-                        board[i][j].setColor(2);
-                    }
-                    else if (!othello.returnPlayer() && othello.isValid(i, j)) {
-                        board[i][j].setColor(-2);
-                    }
-                }
-            }
-        }
+        updateBoardHighlights();
         repaint();
+
+        // Bot move if enabled and it's bot's turn (black)
+        if (botMode && !othello.returnPlayer() && othello.playerHasMoves()) {
+            int[] botMove = bot.chooseMove(othello);
+            if (botMove != null) {
+                othello.makeMove(botMove[0], botMove[1]);
+                updateBoardHighlights();
+                repaint();
+            }
+        }
 
         if (!othello.areThereAnyMoves()) {
             int[] finalScores = othello.returnFinalScores();
@@ -120,6 +124,20 @@ public class OthelloFrame extends JFrame{
             }
             othello.resetBoard();
             resetBoard();
+        }
+    }
+
+    private void updateBoardHighlights() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j].setColor(othello.returnColor(i, j));
+                if (othello.returnPlayer() && othello.isValid(i, j)) {
+                    board[i][j].setColor(2);
+                }
+                else if (!othello.returnPlayer() && othello.isValid(i, j)) {
+                    board[i][j].setColor(-2);
+                }
+            }
         }
     }
 }
